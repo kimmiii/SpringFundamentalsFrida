@@ -7,7 +7,8 @@
 	<form th:object="${beginNaamForm}"
 		method="get" th:action="@{/snacks/beginnaam}">
 		<label>Begin naam:<span th:errors="*{begin}"></span>
-			<input th:field="*{begin}" autofocus></label>
+			<input th:field="*{begin}" autofocus required>
+		</label>
 		<input type="submit" value="Zoeken">
 		<ul th:if="${snacks} != null">
 			<li th:each="snack:${snacks}" th:text="${snack.naam}"></li>
