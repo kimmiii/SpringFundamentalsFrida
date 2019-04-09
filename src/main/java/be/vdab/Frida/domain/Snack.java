@@ -2,9 +2,16 @@ package be.vdab.Frida.domain;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 public class Snack {
 	private final long id;
+	@NotBlank
 	private final String naam;
+	@NotNull
+	@PositiveOrZero
 	private final BigDecimal prijs;
 	
 	public Snack(long id, String naam, BigDecimal prijs) {

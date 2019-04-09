@@ -12,7 +12,9 @@
 	<div th:if="${letter} != null">
 		<h2>Snacks die beginnen met <span th:text="${letter}"></span></h2>
 		<ul>
-			<li th:each="snack:${snacks}" th:text="${snack.naam}"></li>
+			<li th:each="snack:${snacks}">
+				<a th:href="@{/snacks/{id}/wijzigen/form(id=${snack.id})}"
+			 		th:text="${snack.naam}"></a></li>
 		</ul>
 	</div>
 </body>

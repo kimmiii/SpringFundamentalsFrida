@@ -6,9 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import be.vdab.Frida.domain.Snack;
+import be.vdab.Frida.exceptions.SnackNietGevondenException;
 import be.vdab.Frida.forms.BeginNaamForm;
 import be.vdab.Frida.services.SnackService;
 
@@ -47,5 +51,28 @@ public class SnackController {
 			 return modelAndView;
 		 }
 		 return modelAndView.addObject("snacks", snackService.findByBeginNaam(form.getBegin()));		 
+	}
+	
+	@GetMapping("{id}/wijzigen/form")
+	ModelAndView wijzigenForm(@PathVariable long id) {
+		ModelAndView modelAndView = new ModelAndView("wijzigSnack");
+		snackService.findById(id).ifPresent(snack -> modelAndView.addObject(snack));
+		return modelAndView;
+	}
+	
+	@PostMapping("wijzigen")
+	String wijzigen(@Valid Snack snack, Errors errors, RedirectAttributes redirect) {
+		if (errors.hasErrors()) {
+			return "wijzigSnack";
+		}
+		try {
+			snackService.update(snack);
+			return "redirect:/";
+		} catch (SnackNietGevondenException ex) {
+			redirect.addAttribute("snackNietGevonden", snack.getId());
+			return "redirect:/";
+		}
+		
+		
 	}
 }
